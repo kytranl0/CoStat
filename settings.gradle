@@ -1,0 +1,2 @@
+rootProject.name='CoStat'
+include ':app'
