@@ -6,8 +6,12 @@
     <string name="second_fragment_label">Second Fragment</string>
     <string name="next">Next</string>
     <string name="previous">Previous</string>
-    <string name="nextpage">Get result!</string>
-    <string name="secondactivity">Second Page</string>
+    <string name="secondPage">Second Page</string>
+    <string name="firstPage">First Page</string>
+    <string name="recovered">Total Recovered</string>
+    <string name="Death">Total Death</string>
+    <string name="infected">Total Infected</string>
+    <string name="getResult">Get result!</string>
 
     <string name="hello_first_fragment">Welcome to the app.</string>
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>

@@ -1,63 +1,58 @@
 package com.example.costat;
 
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
-import com.jjoe64.graphview.GraphView;
-import com.jjoe64.graphview.series.DataPoint;
-import com.jjoe64.graphview.series.LineGraphSeries;
-import com.squareup.okhttp.OkHttpClient;
-import com.squareup.okhttp.Request;
-import com.squareup.okhttp.Response;
+
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 
-import android.util.Log;
 import android.view.View;
 import android.view.Menu;
-import android.view.MenuItem;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.TextView;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
+import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 
 public class MainActivity extends AppCompatActivity {
-//    LineGraphSeries<DataPoint> series;
+    ListView listView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        listView=(ListView) findViewById(R.id.listview);
 
-        FloatingActionButton fab = findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
-        Button button = (Button)findViewById(R.id.button);
+        ArrayList<String> arrList = new ArrayList<>();
 
-        button.setOnClickListener(new View.OnClickListener() {
+        arrList.add("c");
+        arrList.add("a");
+        arrList.add("b");
+        arrList.add("c");
+        arrList.add("a");
+        arrList.add("b");
+        arrList.add("c");
+        arrList.add("a");
+        arrList.add("b");
+
+        ArrayAdapter arrayAdapter = new ArrayAdapter(this,android.R.layout.simple_list_item_1, arrList);
+        listView.setAdapter(arrayAdapter);
+
+
+        Button button2 = (Button)findViewById(R.id.button2);
+
+        button2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                goToSecondActivity();
+                goToSecondPage();
             }
         });
 
-        double y,x;
-        x=-5.0;
+//        double y,x;
+//        x=-5.0;
 
 //        GraphView graph = (GraphView) findViewById(R.id.graph);
 //        series = new LineGraphSeries<DataPoint>();
@@ -71,83 +66,37 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
+//    @Override
+//    public boolean onCreateOptionsMenu(Menu menu) {
+//        // Inflate the menu; this adds items to the action bar if it is present.
+//        getMenuInflater().inflate(R.menu.menu_main, menu);
+//        return true;
+//    }
+
+//    @Override
+//    public boolean onOptionsItemSelected(MenuItem item) {
+//        // Handle action bar item clicks here. The action bar will
+//        // automatically handle clicks on the Home/Up button, so long
+//        // as you specify a parent activity in AndroidManifest.xml.
+//        int id = item.getItemId();
+//
+//        //noinspection SimplifiableIfStatement
+//        if (id == R.id.action_settings) {
+//            return true;
+//        }
+//
+//        return super.onOptionsItemSelected(item);
+//    }
+
+
+
+    private void goToSecondPage() {
+        Intent intent = new Intent(this, SecondActivity.class);
+        startActivity(intent);
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
 
-        return super.onOptionsItemSelected(item);
-    }
 
-    private void goToSecondActivity() {
-        Log.d("stuff", "hello");
-        OkHttpHandler handler = new OkHttpHandler();
-        try {
-            handler.execute("yeet").get();
-        } catch (Exception e) {
 
-        }
-
-//        Intent intent = new Intent(this, SecondActivity.class);
-//        startActivity(intent);
-    }
-
-    private class OkHttpHandler extends AsyncTask<String, Void, byte[]> {
-        OkHttpClient client = new OkHttpClient();
-        @Override
-        protected byte[] doInBackground(String... params) {
-            Request request = new Request.Builder()
-                    .url("https://coronavirus-19-api.herokuapp.com/all")
-                    .build();
-            try {
-                Log.d("stuff", "sup");
-                Response response = client.newCall(request).execute();
-                Log.d("stuff", String.valueOf(response.isSuccessful()));
-                jsonToMap(response.body().string());
-                return response.body().bytes();
-            } catch (Exception e) {
-                Log.d("stuff", e.toString());
-            }
-            return null;
-        }
-
-    }
-    public void jsonToMap(String t) throws JSONException {
-
-        HashMap<String, String> map = new HashMap<String, String>();
-        JSONObject jObject = new JSONObject(t);
-        Iterator<?> keys = jObject.keys();
-
-        while( keys.hasNext() ){
-            String key = (String)keys.next();
-            String value = jObject.getString(key);
-            map.put(key, value);
-
-        }
-
-        TextView textView = (TextView) findViewById(R.id.textView);
-
-        TextView death = (TextView) findViewById(R.id.textView5);
-
-        TextView recovered = (TextView) findViewById(R.id.textView6);
-
-        textView.setText(map.get("cases"));
-        death.setText(map.get("deaths"));
-        recovered.setText(map.get("recovered"));
-
-    }
 }
